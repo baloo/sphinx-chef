@@ -117,7 +117,7 @@ class Chefserver(Directive):
     """
     Sphinx calls uses this function as entry point
     """
-    node = server()
+    node = chefserver()
     node.config = self.get_config()
     return [node]
 
