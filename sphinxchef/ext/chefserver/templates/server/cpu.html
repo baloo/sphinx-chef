@@ -1,0 +1,24 @@
+{% macro cpu_block(cpu, id) -%}
+<div class="server-cpus-cpu">
+  <p class="title">CPU #{{id}}</p>
+  <p class="server-cpus-cpu-model" cpuModelId="{{cpu.model}}">
+    {{cpu.model_name}}
+  </p>
+  <div class="additionnal">
+    {% for item in cpu %}
+    <p id="server-cpus-cpu-{{item}}">
+      <span>{{item}}</span> {{cpu[item]}}
+    </p>{% endfor %}
+  </div>
+</div>
+{%- endmacro %}
+{% if content['cpu'] %}
+<div class="server-cpus">
+  <p class="server-cpus-title">
+    CPUs
+  </p>
+{% for cpu in content.cpu %} {% if content.cpu[cpu]['model'] %}
+{{ cpu_block(content.cpu[cpu], cpu) }}
+{% endif %} {% endfor%}
+</div>
+{% endif %}

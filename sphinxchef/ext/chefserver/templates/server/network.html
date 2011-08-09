@@ -1,0 +1,44 @@
+{% macro ipv4_block(addr, id) %}
+<p class="server-network-iface-ipaddress server-network-iface-ipaddressv4">
+<span>v4:</span> {{id}} / {{addr.netmask}}
+</p>
+{% endmacro %}
+
+{% macro ipv6_block(addr, id) %}
+{% if addr.scope == "Global" %}
+<p class="server-network-iface-ipaddress server-network-iface-ipaddressv6">
+<span>v6:</span> {{id}} / {{addr.prefixlen}}
+</p>
+{% endif %}
+{% endmacro %}
+
+{% macro addr_block(addr, id) %}
+{% if addr.family == "inet" %}
+{{ ipv4_block(addr, id) }}
+{% elif addr.family == "inet6" %}
+{{ ipv6_block(addr, id) }}
+{% else %}{% endif %}
+{% endmacro %}
+
+{% macro iface_block(iface, id) -%}
+<div class="server-network-iface server-network-iface-{{id}}" >
+  <p class="title">Iface #{{id}}</p>
+  <p class="server-network-iface-mtu">
+    <span>MTU</span> {{iface.mtu}}
+  </p>
+  {% for addr in iface.addresses %}
+  {{ addr_block(iface.addresses[addr], addr) }}
+  {% endfor %}
+</div>
+{%- endmacro %}
+
+{% if content['network'] %}
+<div class="server-network">
+  <p class="server-network-title">
+    Network
+  </p>
+{% for iface in content.network.interfaces %} {% if content.network.interfaces[iface]['type'] == 'eth' %}
+{{ iface_block(content.network.interfaces[iface], iface) }}
+{% endif %} {% endfor%}
+</div>
+{% endif %}

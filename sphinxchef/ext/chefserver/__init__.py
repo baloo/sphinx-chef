@@ -25,9 +25,8 @@ from sphinx.util.osutil import ensuredir, ENOENT, EPIPE
 from sphinx.util.compat import Directive
 from sphinx.util import copy_static_entry
 
-# Mustache template engine
-import pystache
-from sphinxchef.ext.chefserver.loader import Loader
+# Jinja template engine
+import jinja2
 
 # INI config parser
 import ConfigParser
@@ -128,12 +127,13 @@ def html_visit_chefserver(self, node):
     - Chef infos
   """
   # Gets sources
-  filename = node.config.get('filename', self.builder.config.chefserver_default_template)
-  markup = Loader().load_template(filename+'.html', self.builder.config.chefserver_templates)
   content = node.content(self.builder)
 
   # Generate html content
-  html = pystache.Template(markup, content).render()
+  loader=jinja2.FileSystemLoader(self.builder.config.chefserver_templates)
+  env=jinja2.Environment(loader=loader)
+  template=env.get_template(node.config.get('filename', self.builder.config.chefserver_default_template)+'.html')
+  html = template.render(content=content)
   self.body.append(html)
 
   # Copy css file

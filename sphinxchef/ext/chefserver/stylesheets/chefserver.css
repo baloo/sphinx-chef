@@ -1,0 +1,55 @@
+.server {
+  border: 1px #000000 solid;
+}
+.server-name {
+  font-weight: bold;
+  font-size: 140%;
+  border-bottom: 2px #CCCCCC solid;
+  text-transform: capitalize;
+}
+
+.server-os .title {
+  font-size: 110%;
+  font-weight: bold;
+  border-bottom: 2px #CCCCCC solid;
+}
+
+.server-os div span {
+  border-bottom: 1px #CCCCCC solid;
+  margin-right: 1em;
+}
+
+.server-cpus .server-cpus-title {
+  font-size: 110%;
+  font-weight: bold;
+  border-bottom: 2px #CCCCCC solid;
+}
+
+.server-cpus p.title {
+  font-weight: bold;
+  border-bottom: 2px #CCCCCC solid;
+}
+
+.server-cpus-cpu .additionnal {
+  display: none;
+}
+.server-cpus-cpu .additionnal p span {
+  font-weight: bold;
+}
+
+.server-network-title {
+  font-size: 110%;
+  font-weight: bold;
+  border-bottom: 2px #CCCCCC solid;
+}
+
+.server-network-iface p.title {
+  font-weight: bold;
+  border-bottom: 1px #CCCCCC solid;
+}
+
+.server-network-iface .server-network-iface-mtu {
+  font-size: 90%;
+  font-style: italic;
+}
+
