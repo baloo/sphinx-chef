@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-    zenexity-sphinx.ext.zenserver
+    sphinxchef.ext.chefserver
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Allow zenexity server documentation directly inserted into documentation
+    Allow chef server documentation directly inserted into documentation
 
     :copyright: Copyright 2011 by Arthur Gautier
     :copyright: Copyright 2011 by Zenexity
@@ -27,7 +27,7 @@ from sphinx.util import copy_static_entry
 
 # Mustache template engine
 import pystache
-from sphinxzen.ext.zenserver.loader import Loader
+from sphinxchef.ext.chefserver.loader import Loader
 
 # INI config parser
 import ConfigParser
@@ -62,9 +62,9 @@ class chefserver(nodes.General, nodes.Element):
     """
     Gets content against chef server and return dict-like object
     """
-    with chef.ChefAPI(builder.config.zenserver_chef, 
-                      builder.config.zenserver_chef_key, 
-                      builder.config.zenserver_chef_login):
+    with chef.ChefAPI(builder.config.chefserver_chef, 
+                      builder.config.chefserver_chef_key, 
+                      builder.config.chefserver_chef_login):
       n = chef.Node(self.config['fqdn'])
       return n
 
@@ -84,7 +84,7 @@ class Chefserver(Directive):
 
   def get_config(self):
     """
-    Gets content of the zenserver directive
+    Gets content of the chefserver directive
     """
 
     # Get content into an IO fd
