@@ -39,7 +39,7 @@ class ChefserverError(SphinxError):
   category = 'Zenserver error'
 
 class chefserver(nodes.General, nodes.Element):
-  """ 
+  """
   This class stores element object of documentation
   """
   config = {}
@@ -127,11 +127,11 @@ def html_visit_chefserver(self, node):
     - Mustache template file
     - Chef infos
   """
-  # Gets sources 
+  # Gets sources
   filename = node.config.get('filename', self.builder.config.chefserver_default_template)
   markup = Loader().load_template(filename+'.html', self.builder.config.chefserver_templates)
   content = node.content(self.builder)
- 
+
   # Generate html content
   html = pystache.Template(markup, content).render()
   self.body.append(html)
