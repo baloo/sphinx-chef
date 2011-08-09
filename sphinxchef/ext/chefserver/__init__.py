@@ -62,8 +62,8 @@ class chefserver(nodes.General, nodes.Element):
     """
     Gets content against chef server and return dict-like object
     """
-    with chef.ChefAPI(builder.config.chefserver_chef, 
-                      builder.config.chefserver_chef_key, 
+    with chef.ChefAPI(builder.config.chefserver_chef,
+                      builder.config.chefserver_chef_key,
                       builder.config.chefserver_chef_login):
       n = chef.Node(self.config['fqdn'])
       return n
