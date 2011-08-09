@@ -1,0 +1,10 @@
+.server {
+  border: 1px #000000 solid;
+}
+.server-name {
+  font-weight: bold;
+  font-size: 140%;
+  font-size: 140%;
+  border-bottom: 2px #CCCCCC solid;
+  text-transform: capitalize;
+}
