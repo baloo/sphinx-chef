@@ -35,10 +35,10 @@ import ConfigParser
 # Chef imports
 import chef
 
-class ZenserverError(SphinxError):
+class ChefserverError(SphinxError):
   category = 'Zenserver error'
 
-class zenserver(nodes.General, nodes.Element):
+class chefserver(nodes.General, nodes.Element):
   """ 
   This class stores element object of documentation
   """
@@ -70,9 +70,9 @@ class zenserver(nodes.General, nodes.Element):
 
     return {}
 
-class Zenserver(Directive):
+class Chefserver(Directive):
   """
-  Directive to insert zenexity server markup.
+  Directive to insert chef server markup.
   """
   required_arguments = 0
   optional_arguments = 0
@@ -89,7 +89,7 @@ class Zenserver(Directive):
 
     # Get content into an IO fd
     content = io.StringIO()
-    content.write(u"[zenserver]\n")
+    content.write(u"[server]\n")
     for str in self.content:
       content.write("%s\n" % str)
     content.seek(0) # Get back to the start
@@ -102,12 +102,12 @@ class Zenserver(Directive):
 
     # Now read content
     for item in self.needed_content:
-      if config.has_option('zenserver', item) == False:
+      if config.has_option('server', item) == False:
         pass #TODO: this MUST raised exceptions
 
     # Gets content in a dict
     dict_config = {}
-    for item in config.items('zenserver'):
+    for item in config.items('server'):
       name, content = item
       dict_config[name] = content
 
@@ -117,19 +117,19 @@ class Zenserver(Directive):
     """
     Sphinx calls uses this function as entry point
     """
-    node = zenserver()
+    node = server()
     node.config = self.get_config()
     return [node]
 
-def html_visit_zenserver(self, node):
+def html_visit_chefserver(self, node):
   """
   This function generates html content from:
     - Mustache template file
     - Chef infos
   """
   # Gets sources 
-  filename = node.config.get('filename', self.builder.config.zenserver_default_template)
-  markup = Loader().load_template(filename+'.html', self.builder.config.zenserver_templates)
+  filename = node.config.get('filename', self.builder.config.chefserver_default_template)
+  markup = Loader().load_template(filename+'.html', self.builder.config.chefserver_templates)
   content = node.content(self.builder)
  
   # Generate html content
@@ -137,8 +137,8 @@ def html_visit_zenserver(self, node):
   self.body.append(html)
 
   # Copy css file
-  for file in self.builder.config.zenserver_css_files:
-    copy_static_entry(path.join(self.builder.config.zenserver_css_path, file),
+  for file in self.builder.config.chefserver_css_files:
+    copy_static_entry(path.join(self.builder.config.chefserver_css_path, file),
       path.join(self.builder.outdir, '_static'),
       self.builder)
     self.builder.css_files.append(path.join('_static', file))
@@ -148,22 +148,22 @@ def html_visit_zenserver(self, node):
 
 def setup(app):
   """
-  Zenserver plugin entry point
+  Chefserver plugin entry point
   """
-  app.add_node(zenserver,
-               html=(html_visit_zenserver, None))
-  app.add_directive('zenserver', Zenserver)
+  app.add_node(chefserver,
+               html=(html_visit_chefserver, None))
+  app.add_directive('chefserver', Chefserver)
 
   # Templates related configs
-  app.add_config_value('zenserver_templates', path.join(path.dirname(__file__), 'templates'), 'html')
-  app.add_config_value('zenserver_default_template', 'server', 'html')
-  app.add_config_value('zenserver_css_files', ['zenserver.css'], 'html')
-  app.add_config_value('zenserver_css_path', path.join(path.dirname(__file__), 'stylesheets'), 'html')
+  app.add_config_value('chefserver_templates', path.join(path.dirname(__file__), 'templates'), 'html')
+  app.add_config_value('chefserver_default_template', 'server', 'html')
+  app.add_config_value('chefserver_css_files', ['chefserver.css'], 'html')
+  app.add_config_value('chefserver_css_path', path.join(path.dirname(__file__), 'stylesheets'), 'html')
 
   # Chef related configs
-  app.add_config_value('zenserver_chef', '', 'html')
-  app.add_config_value('zenserver_chef_key', '', 'html')
-  app.add_config_value('zenserver_chef_login', '', 'html')
-  
+  app.add_config_value('chefserver_chef', '', 'html')
+  app.add_config_value('chefserver_chef_key', '', 'html')
+  app.add_config_value('chefserver_chef_login', '', 'html')
+
 
 # EOF
